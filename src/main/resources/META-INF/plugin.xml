@@ -26,5 +26,8 @@
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">
         <notificationGroup displayType="BALLOON" id="Vim Cheatsheet Error" />
+        <applicationService serviceImplementation="space.luchuktech.vimcheatsheet.service.ConcreteCheatsheet"
+                            serviceInterface="space.luchuktech.vimcheatsheet.service.Cheatsheet"
+                            />
     </extensions>
 </idea-plugin>
