@@ -7,6 +7,7 @@ import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowFactory;
 import org.jetbrains.annotations.NotNull;
 import space.luchuktech.vimcheatsheet.api.Category;
+import space.luchuktech.vimcheatsheet.api.Motion;
 import space.luchuktech.vimcheatsheet.service.Cheatsheet;
 
 import javax.swing.*;
@@ -21,7 +22,7 @@ final public class CheatsheetWindowFactory implements ToolWindowFactory, DumbAwa
         private final JPanel contentPanel = new JPanel();
 
         public CheatsheetToolWindow(ToolWindow toolWindow) {
-
+            //TODO: Initialize tool window contents
         }
 
         private void insertContents(JPanel contentPanel) {
@@ -30,8 +31,18 @@ final public class CheatsheetWindowFactory implements ToolWindowFactory, DumbAwa
             for (Category category : cheatsheet.getCategories()) {
                 contentPanel.add(createCategoryLabel(category));
 
-                //TODO: Loop through motions and add them as labels to the content panel.
+                var motions = cheatsheet.getMotionsInCategory(category);
+
+                for (Motion motion : motions) {
+                    contentPanel.add(createMotionLabel(motion));
+                }
             }
+        }
+
+        private JLabel createMotionLabel(Motion motion) {
+            var label = new JLabel();
+            label.setText(motion.motion() + " -- " + motion.description());
+            return label;
         }
 
         private JLabel createCategoryLabel(Category category) {
