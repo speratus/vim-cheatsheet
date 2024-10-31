@@ -1,0 +1,15 @@
+{
+  "categories": [
+    {
+      "id": "MODE_NORMAL",
+      "name": "Normal Mode"
+    }
+  ],
+  "motions": [
+    {
+      "categoryId": "MODE_NORMAL",
+      "motion": "j",
+      "description": "Move the cursor down one line"
+    }
+  ]
+}
