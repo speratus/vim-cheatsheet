@@ -29,5 +29,10 @@
         <applicationService serviceImplementation="space.luchuktech.vimcheatsheet.service.ConcreteCheatsheet"
                             serviceInterface="space.luchuktech.vimcheatsheet.service.Cheatsheet"
                             />
+        <toolWindow factoryClass="space.luchuktech.vimcheatsheet.CheatsheetWindowFactory"
+                    id="Vim Cheat Sheet"
+                    anchor="left"
+                    secondary="false"
+                    />
     </extensions>
 </idea-plugin>
