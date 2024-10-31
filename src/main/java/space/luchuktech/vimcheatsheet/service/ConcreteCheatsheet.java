@@ -41,12 +41,10 @@ public class ConcreteCheatsheet implements Cheatsheet {
     private void loadAllMotions() {
         if (hasLoaded) return;
 
-        var file = new File(Objects.requireNonNull(getClass().getResource(MOTIONS_PATH)).getPath());
-
         ObjectMapper mapper = new ObjectMapper();
 
         try {
-            var root = mapper.readTree(file);
+            var root = mapper.readTree(getClass().getResourceAsStream(MOTIONS_PATH));
             List<Category> categories = mapper.treeToValue(root.get("categories"), List.class);
 
             this.categories = categories;
