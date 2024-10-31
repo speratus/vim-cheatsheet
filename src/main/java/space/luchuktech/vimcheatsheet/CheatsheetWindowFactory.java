@@ -5,6 +5,8 @@ import com.intellij.openapi.project.DumbAware;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowFactory;
+import com.intellij.ui.content.Content;
+import com.intellij.ui.content.ContentFactory;
 import org.jetbrains.annotations.NotNull;
 import space.luchuktech.vimcheatsheet.api.Category;
 import space.luchuktech.vimcheatsheet.api.Motion;
@@ -13,16 +15,21 @@ import space.luchuktech.vimcheatsheet.service.Cheatsheet;
 import javax.swing.*;
 
 final public class CheatsheetWindowFactory implements ToolWindowFactory, DumbAware {
+
     @Override
     public void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow) {
-
+        CheatsheetToolWindow windowContent = new CheatsheetToolWindow(toolWindow);
+        Content content = ContentFactory.getInstance().createContent(windowContent.getContentPanel(), "", false);
+        toolWindow.getContentManager().addContent(content);
     }
 
     private static class CheatsheetToolWindow {
         private final JPanel contentPanel = new JPanel();
 
         public CheatsheetToolWindow(ToolWindow toolWindow) {
-            //TODO: Initialize tool window contents
+            contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
+
+            insertContents(contentPanel);
         }
 
         private void insertContents(JPanel contentPanel) {
@@ -51,6 +58,11 @@ final public class CheatsheetWindowFactory implements ToolWindowFactory, DumbAwa
 
             return label;
         }
+
+        public JPanel getContentPanel() {
+            return contentPanel;
+        }
+
     }
 
 }
