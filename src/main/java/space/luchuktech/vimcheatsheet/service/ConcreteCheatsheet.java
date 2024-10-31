@@ -16,7 +16,7 @@ import java.util.Objects;
 
 public class ConcreteCheatsheet implements Cheatsheet {
 
-    private static final String MOTIONS_PATH = "/motions.json";
+    private static final String MOTIONS_PATH = "/data/motions.json";
 
     private HashMap<Category, List<Motion>> allMotions = new HashMap<>();
 
@@ -66,7 +66,7 @@ public class ConcreteCheatsheet implements Cheatsheet {
         } catch (JsonProcessingException e) {
             createNotification("Failed to process JSON: " + e.getMessage());
         } catch (IOException e) {
-            createNotification("Failed to load motions file");
+            createNotification("Failed to load motions file: " + e.getMessage());
         }
 
     }
