@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class ConcreteCheatsheet implements Cheatsheet {
 
@@ -40,7 +41,7 @@ public class ConcreteCheatsheet implements Cheatsheet {
     private void loadAllMotions() {
         if (hasLoaded) return;
 
-        var file = new File(MOTIONS_PATH);
+        var file = new File(Objects.requireNonNull(getClass().getResource(MOTIONS_PATH)).getPath());
 
         ObjectMapper mapper = new ObjectMapper();
 
