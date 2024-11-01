@@ -31,7 +31,7 @@
                             />
         <toolWindow factoryClass="space.luchuktech.vimcheatsheet.CheatsheetWindowFactory"
                     id="Vim Cheat Sheet"
-                    anchor="left"
+                    anchor="right"
                     secondary="false"
                     />
     </extensions>
