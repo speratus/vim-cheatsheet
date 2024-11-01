@@ -16,17 +16,14 @@ import space.luchuktech.vimcheatsheet.api.Motion;
 import space.luchuktech.vimcheatsheet.service.Cheatsheet;
 
 import javax.swing.*;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.StyledDocument;
+import javax.swing.text.*;
 import java.awt.*;
 
 final public class CheatsheetWindowFactory implements ToolWindowFactory, DumbAware {
 
     @Override
     public void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow) {
-        CheatsheetToolWindow windowContent = new CheatsheetToolWindow(toolWindow);
+        CheatsheetToolWindow windowContent = new CheatsheetToolWindow();
         Content content = ContentFactory.getInstance().createContent(windowContent.getContentPanel(), "", false);
         toolWindow.getContentManager().addContent(content);
     }
@@ -36,13 +33,13 @@ final public class CheatsheetWindowFactory implements ToolWindowFactory, DumbAwa
 
         private final JTextPane textPane = new JTextPane();
 
-        private SimpleAttributeSet header = new SimpleAttributeSet();
-        private SimpleAttributeSet body = new SimpleAttributeSet();
-        private SimpleAttributeSet code = new SimpleAttributeSet();
+        private final SimpleAttributeSet header = new SimpleAttributeSet();
+        private final SimpleAttributeSet body = new SimpleAttributeSet();
+        private final SimpleAttributeSet code = new SimpleAttributeSet();
 
-        private StyledDocument document;
+        private final StyledDocument document;
 
-        public CheatsheetToolWindow(ToolWindow toolWindow) {
+        public CheatsheetToolWindow() {
             contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
 
             document = textPane.getStyledDocument();
