@@ -7,6 +7,7 @@ import com.intellij.openapi.project.DumbAware;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowFactory;
+import com.intellij.ui.JBColor;
 import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentFactory;
 import org.jetbrains.annotations.NotNull;
@@ -37,6 +38,7 @@ final public class CheatsheetWindowFactory implements ToolWindowFactory, DumbAwa
 
         private SimpleAttributeSet header = new SimpleAttributeSet();
         private SimpleAttributeSet body = new SimpleAttributeSet();
+        private SimpleAttributeSet code = new SimpleAttributeSet();
 
         private StyledDocument document;
 
@@ -52,6 +54,10 @@ final public class CheatsheetWindowFactory implements ToolWindowFactory, DumbAwa
 
             StyleConstants.setFontSize(body, 16);
             StyleConstants.setLeftIndent(body, 5.0f);
+
+            StyleConstants.setFontFamily(code, "Monospaced");
+            StyleConstants.setFontSize(code, 16);
+            StyleConstants.setBackground(code, JBColor.lightGray);
 
             insertContents(contentPanel);
         }
@@ -82,7 +88,8 @@ final public class CheatsheetWindowFactory implements ToolWindowFactory, DumbAwa
         }
 
         private void createMotionLabel(Motion motion) throws BadLocationException {
-            document.insertString(document.getLength(), motion.motion() + " -- " + motion.description() + "\n", body);
+            document.insertString(document.getLength(), motion.motion(), code);
+            document.insertString(document.getLength(), " -- " + motion.description() + "\n", body);
         }
 
         private void createCategoryLabel(Category category) throws BadLocationException {
