@@ -1,6 +1,7 @@
 package space.luchuktech.vimcheatsheet.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.intellij.notification.NotificationGroupManager;
 import com.intellij.notification.NotificationType;
@@ -45,7 +46,7 @@ public class ConcreteCheatsheet implements Cheatsheet {
 
         try {
             var root = mapper.readTree(getClass().getResourceAsStream(MOTIONS_PATH));
-            List<Category> categories = mapper.treeToValue(root.get("categories"), List.class);
+            List<Category> categories = mapper.treeToValue(root.get("categories"), new TypeReference<List<Category>>() { });
 
             this.categories = categories;
 
@@ -53,7 +54,7 @@ public class ConcreteCheatsheet implements Cheatsheet {
                 categoriesById.put(category.id(), category);
             }
 
-            List<Motion> motions = mapper.treeToValue(root.get("motions"), List.class);
+            List<Motion> motions = mapper.treeToValue(root.get("motions"), new TypeReference<List<Motion>>() { });
 
             for (var motion : motions) {
                 addMotion(motion);
