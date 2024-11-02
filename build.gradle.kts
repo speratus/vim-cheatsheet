@@ -48,5 +48,5 @@ tasks {
 
 dependencies {
     implementation("com.fasterxml.jackson.core:jackson-databind:2.17.1")
-    implementation("net.sf.cssbox:cssbox:5.0.0")
+    implementation("org.openjfx:javafx-maven-plugin:0.0.8")
 }
