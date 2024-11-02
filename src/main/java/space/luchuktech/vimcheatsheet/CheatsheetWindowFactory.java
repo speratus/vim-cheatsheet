@@ -13,6 +13,7 @@ import com.intellij.openapi.wm.ToolWindowFactory;
 import com.intellij.ui.JBColor;
 import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentFactory;
+import com.intellij.util.ui.JBFont;
 import org.jetbrains.annotations.NotNull;
 import space.luchuktech.vimcheatsheet.api.Category;
 import space.luchuktech.vimcheatsheet.api.Motion;
@@ -32,32 +33,15 @@ final public class CheatsheetWindowFactory implements ToolWindowFactory, DumbAwa
     }
 
     private static class CheatsheetToolWindow {
+        //TODO: Swap out JTextPane for a JEditorPane so that HTML can be rendered.
         private final JPanel contentPanel = new JPanel();
 
-        private final JTextPane textPane = new JTextPane();
-
-        private final SimpleAttributeSet header = new SimpleAttributeSet();
-        private final SimpleAttributeSet body = new SimpleAttributeSet();
-        private final SimpleAttributeSet code = new SimpleAttributeSet();
-
-        private final StyledDocument document;
+        private final JEditorPane editorPane = new JEditorPane();
 
         public CheatsheetToolWindow() {
             contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
 
-            document = textPane.getStyledDocument();
-
-            StyleConstants.setFontSize(header, 24);
-            StyleConstants.setBold(header, true);
-            StyleConstants.setLineSpacing(header, 2.0f);
-            StyleConstants.setLeftIndent(header, 3.0f);
-
-            StyleConstants.setFontSize(body, 16);
-            StyleConstants.setLeftIndent(body, 5.0f);
-
-            StyleConstants.setFontFamily(code, "Monospaced");
-            StyleConstants.setFontSize(code, 16);
-            StyleConstants.setBackground(code, JBColor.gray);
+            editorPane.setContentType("text/html");
 
             insertContents(contentPanel);
         }
@@ -65,35 +49,66 @@ final public class CheatsheetWindowFactory implements ToolWindowFactory, DumbAwa
         private void insertContents(JPanel contentPanel) {
             Cheatsheet cheatsheet = ApplicationManager.getApplication().getService(Cheatsheet.class);
 
-            try {
-                for (Category category : cheatsheet.getCategories()) {
-                    createCategoryLabel(category);
+            StringBuffer contentBuffer = new StringBuffer();
+            contentBuffer.append("<html lang=\"en\"><head>" +
+                    "<style>" +
+                    "body, h2, p {" +
+                    "   font-family: '" + JBFont.regular().getFamily() + "';" +
+                    "}" +
+                    "p {" +
+                    "   font-size: " + JBFont.regular().getSize() + "px;" +
+                    "}" +
+                    "h2 {" +
+                    "   font-size: " + JBFont.h2().getSize() + "px;" +
+                    "   padding-bottom: 0.75em;" +
+                    "}" +
+                    "ul {" +
+                    "   list-style: none;" +
+                    "}" +
+                    "span.code {" +
+                    "   background-color: rgb(128, 128, 128);" +
+                    "   display: inline-block;" +
+                    "   border-radius: 5px;" +
+                    "   padding-left: 3px;" +
+                    "   padding-right: 3px;" +
+                    "   font-family: 'JetBrains Mono';" +
+                    "}" +
+                    "body {" +
+                    "   padding-left: 20px;" +
+                    "}" +
+                    "</style>" +
+                    "<body>"
+            );
 
-                    var motions = cheatsheet.getMotionsInCategory(category);
+            for (Category category : cheatsheet.getCategories()) {
+                createCategoryLabel(category, contentBuffer);
 
-                    for (Motion motion : motions) {
-                        createMotionLabel(motion);
-                    }
+                var motions = cheatsheet.getMotionsInCategory(category);
+
+                for (Motion motion : motions) {
+                    createMotionLabel(motion, contentBuffer);
                 }
-            } catch (BadLocationException e) {
-                NotificationGroupManager.getInstance()
-                        .getNotificationGroup("Vim Cheatsheet Error")
-                        .createNotification("Bad Location error: " + e.getMessage(), NotificationType.ERROR)
-                        .notify(null);
             }
 
-            textPane.setEditable(false);
-            contentPanel.add(Box.createRigidArea(new Dimension(30, 0)));
-            contentPanel.add(textPane);
+            contentBuffer.append("</body></html>");
+
+            editorPane.setText(contentBuffer.toString());
+            editorPane.setEditable(false);
+            contentPanel.add(editorPane);
         }
 
-        private void createMotionLabel(Motion motion) throws BadLocationException {
-            document.insertString(document.getLength(), motion.motion(), code);
-            document.insertString(document.getLength(), ": " + motion.description() + "\n", body);
+        private void createMotionLabel(Motion motion, StringBuffer textBuffer) {
+            textBuffer.append("<p><span class=\"code\">")
+                    .append(motion.motion())
+                    .append("</span>:&nbsp;")
+                    .append(motion.description())
+                    .append("</p>");
         }
 
-        private void createCategoryLabel(Category category) throws BadLocationException {
-            document.insertString(document.getLength(), category.name() + "\n", header);
+        private void createCategoryLabel(Category category, StringBuffer textBuffer) {
+            textBuffer.append("<h1>")
+                    .append(category.name())
+                    .append("</h1>");
         }
 
         public JPanel getContentPanel() {
