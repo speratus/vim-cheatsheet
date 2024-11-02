@@ -1,8 +1,11 @@
 package space.luchuktech.vimcheatsheet;
 
+import com.intellij.ide.customize.transferSettings.models.EditorColorScheme;
 import com.intellij.notification.NotificationGroupManager;
 import com.intellij.notification.NotificationType;
 import com.intellij.openapi.application.ApplicationManager;
+import com.intellij.openapi.editor.colors.EditorColorsManager;
+import com.intellij.openapi.editor.colors.EditorColorsScheme;
 import com.intellij.openapi.project.DumbAware;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
@@ -54,7 +57,7 @@ final public class CheatsheetWindowFactory implements ToolWindowFactory, DumbAwa
 
             StyleConstants.setFontFamily(code, "Monospaced");
             StyleConstants.setFontSize(code, 16);
-            StyleConstants.setBackground(code, JBColor.lightGray);
+            StyleConstants.setBackground(code, JBColor.gray);
 
             insertContents(contentPanel);
         }
@@ -86,7 +89,7 @@ final public class CheatsheetWindowFactory implements ToolWindowFactory, DumbAwa
 
         private void createMotionLabel(Motion motion) throws BadLocationException {
             document.insertString(document.getLength(), motion.motion(), code);
-            document.insertString(document.getLength(), " -- " + motion.description() + "\n", body);
+            document.insertString(document.getLength(), ": " + motion.description() + "\n", body);
         }
 
         private void createCategoryLabel(Category category) throws BadLocationException {
