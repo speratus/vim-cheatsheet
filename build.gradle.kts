@@ -48,4 +48,5 @@ tasks {
 
 dependencies {
     implementation("com.fasterxml.jackson.core:jackson-databind:2.17.1")
+    implementation("net.sf.cssbox:cssbox:5.0.0")
 }
