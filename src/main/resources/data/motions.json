@@ -3,13 +3,97 @@
     {
       "id": "MODE_NORMAL",
       "name": "Normal Mode"
+    },
+    {
+      "id": "MODE_COMMAND",
+      "name": "Commands"
     }
   ],
   "motions": [
     {
       "categoryId": "MODE_NORMAL",
       "motion": "j",
-      "description": "Move the cursor down one line"
+      "description": "Move the cursor down"
+    },
+    {
+      "categoryId": "MODE_NORMAL",
+      "motion": "k",
+      "description": "move the cursor up"
+    },
+    {
+      "categoryId": "MODE_NORMAL",
+      "motion": "h",
+      "description": "move the cursor left"
+    },
+    {
+      "categoryId": "MODE_NORMAL",
+      "motion": "l",
+      "description": "move the cursor right"
+    },
+    {
+      "categoryId": "MODE_NORMAL",
+      "motion": "w",
+      "description": "move the cursor forward to the start of the next word"
+    },
+    {
+      "categoryId": "MODE_NORMAL",
+      "motion": "W",
+      "description": "move the cursor forward to the start of the next word (words can contain punctuation)"
+    },
+    {
+      "categoryId": "MODE_NORMAL",
+      "motion": "e",
+      "description": "move the cursor forward to the end of the next word"
+    },
+    {
+      "categoryId": "MODE_NORMAL",
+      "motion": "E",
+      "description": "move the cursor forward to the end of the next word (words can contain punctuation)"
+    },
+    {
+      "categoryId": "MODE_NORMAL",
+      "motion": "b",
+      "description": "move the cursor backwards to the start of the previous word"
+    },
+    {
+      "categoryId": "MODE_NORMAL",
+      "motion": "B",
+      "description": "move the cursor backwards to the start of the previous word (words can contain punctuation)"
+    },
+    {
+      "categoryId": "MODE_NORMAL",
+      "motion": "0",
+      "description": "move the cursor to the start of the line"
+    },
+    {
+      "categoryId": "MODE_NORMAL",
+      "motion": "^",
+      "description": "move the cursor to the first non-blank character on the current line"
+    },
+    {
+      "categoryId": "MODE_NORMAL",
+      "motion": "$",
+      "description": "move the cursor to the last character on the current line"
+    },
+    {
+      "categoryId": "MODE_COMMAND",
+      "motion": ":w",
+      "description": "write the contents of the file to disk"
+    },
+    {
+      "categoryId": "MODE_COMMAND",
+      "motion": ":wq",
+      "description": "write the contents of the file to disk and exit"
+    },
+    {
+      "categoryId": "MODE_COMMAND",
+      "motion": ":q",
+      "description": "quit. If there are unsaved changes, then this command will fail."
+    },
+    {
+      "categoryId": "MODE_COMMAND",
+      "motion": ":q!",
+      "description": "Force quit. Ignore unsaved changes and quit without saving."
     }
   ]
 }
