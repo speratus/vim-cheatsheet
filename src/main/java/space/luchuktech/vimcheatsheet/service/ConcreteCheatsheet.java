@@ -8,20 +8,18 @@ import com.intellij.notification.NotificationType;
 import space.luchuktech.vimcheatsheet.api.Category;
 import space.luchuktech.vimcheatsheet.api.Motion;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 public class ConcreteCheatsheet implements Cheatsheet {
 
     private static final String MOTIONS_PATH = "/data/motions.json";
 
-    private HashMap<Category, List<Motion>> allMotions = new HashMap<>();
+    private final HashMap<Category, List<Motion>> allMotions = new HashMap<>();
 
-    private HashMap<String, Category> categoriesById = new HashMap<>();
+    private final HashMap<String, Category> categoriesById = new HashMap<>();
 
     private List<Category> categories = new ArrayList<>();
 
@@ -74,7 +72,7 @@ public class ConcreteCheatsheet implements Cheatsheet {
         var category = categoriesById.get(motion.categoryId());
 
         if (!allMotions.containsKey(category)) {
-            allMotions.put(category, new ArrayList<Motion>());
+            allMotions.put(category, new ArrayList<>());
         }
 
         var categoryMotions = allMotions.get(category);
