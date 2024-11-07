@@ -44,6 +44,11 @@ final public class CheatsheetWindowFactory implements ToolWindowFactory, DumbAwa
             Cheatsheet cheatsheet = ApplicationManager.getApplication().getService(Cheatsheet.class);
 
             StringBuffer contentBuffer = new StringBuffer();
+            contentBuffer.append("<!DOCTYPE html>" +
+                    "<html>" +
+                    "<head></head>" +
+                    "<body>"
+            );
 
             for (Category category : cheatsheet.getCategories()) {
                 createCategoryLabel(category, contentBuffer);
@@ -54,6 +59,8 @@ final public class CheatsheetWindowFactory implements ToolWindowFactory, DumbAwa
                     createMotionLabel(motion, contentBuffer);
                 }
             }
+
+            contentBuffer.append("</body></html>");
 
             mdPanel.setHtml(contentBuffer.toString(), 0);
             contentPanel.add(mdPanel.getComponent());
