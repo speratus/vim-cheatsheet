@@ -7,6 +7,10 @@
     {
       "id": "MODE_COMMAND",
       "name": "Commands"
+    },
+    {
+      "id": "MODE_VISUAL",
+      "name": "Visual Mode"
     }
   ],
   "motions": [
@@ -76,6 +80,11 @@
       "description": "move the cursor to the last character on the current line"
     },
     {
+      "categoryId": "MODE_NORMAL",
+      "motion": "_",
+      "description": "move to the start of text on the line"
+    },
+    {
       "categoryId": "MODE_COMMAND",
       "motion": ":w",
       "description": "write the contents of the file to disk"
@@ -107,11 +116,6 @@
     },
     {
       "categoryId": "MODE_NORMAL",
-      "motion": "_",
-      "description": "move to the start of text on the line"
-    },
-    {
-      "categoryId": "MODE_NORMAL",
       "motion": ",",
       "description": "move forward using the most recent motion started using <code>f</code> or <code>t</code>."
     },
@@ -119,6 +123,31 @@
       "categoryId": "MODE_NORMAL",
       "motion": ";",
       "description": "move backward using the most recent motion started using <code>f</code> or <code>t</code>."
+    },
+    {
+      "categoryId": "MODE_VISUAL",
+      "motion": "v",
+      "description": "enter visual mode starting on the character under the cursor."
+    },
+    {
+        "categoryId": "MODE_VISUAL",
+        "motion": "V",
+        "description": "enter visual line-selecting visual mode starting on the line under the cursor."
+    },
+    {
+        "categoryId": "MODE_VISUAL",
+        "motion": "o",
+        "description": "move to the other end of the selected text."
+    },
+    {
+        "categoryId": "MODE_VISUAL",
+        "motion": "Esc",
+        "description": "exit visual mode."
+    },
+    {
+        "categoryId": "MODE_VISUAL",
+        "motion": "Ctrl + c",
+        "description": "exit visual mode."
     }
   ]
 }
