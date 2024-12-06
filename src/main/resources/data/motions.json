@@ -148,6 +148,36 @@
         "categoryId": "MODE_VISUAL",
         "motion": "Ctrl + c",
         "description": "exit visual mode."
+    },
+    {
+      "categoryId": "MODE_NORMAL",
+      "motion": "15gg",
+      "description": "go to the line number typed before <code>gg</code>."
+    },
+    {
+      "categoryId": "MODE_NORMAL",
+      "motion": "15G",
+      "description": "go to the line number typed before <code>G</code>"
+    },
+    {
+      "categoryId": "MODE_NORMAL",
+      "motion": "r",
+      "description": "replace the character under the cursor with the next typed character."
+    },
+    {
+      "categoryId": "MODE_NORMAL",
+      "motion": "R",
+      "description": "enter replace mode and continue replacing characters under the cursor until <code>ESC</code> is pressed."
+    },
+    {
+      "categoryId": "MODE_NORMAL",
+      "motion": "cc",
+      "description": "replace the entire line under the cursor"
+    },
+    {
+      "categoryId": "MODE_NORMAL",
+      "motion": ".",
+      "description": "repeat the last command."
     }
   ]
 }
