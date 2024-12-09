@@ -11,6 +11,10 @@
     {
       "id": "MODE_VISUAL",
       "name": "Visual Mode"
+    },
+    {
+      "id": "NAVIGATION",
+      "name": "Navigation"
     }
   ],
   "motions": [
@@ -178,6 +182,16 @@
       "categoryId": "MODE_NORMAL",
       "motion": ".",
       "description": "repeat the last command."
+    },
+    {
+      "categoryId": "NAVIGATION",
+      "motion": "/",
+      "description": "search forward through the document for the given regular expression."
+    },
+    {
+      "categoryId": "NAVIGATION",
+      "motion": "?",
+      "description": "search backward through the document for the given regular expression."
     }
   ]
 }
