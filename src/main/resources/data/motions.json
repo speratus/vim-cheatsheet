@@ -192,6 +192,11 @@
       "categoryId": "NAVIGATION",
       "motion": "?",
       "description": "search backward through the document for the given regular expression."
+    },
+    {
+        "categoryId": "NAVIGATION",
+        "motion": "n",
+        "description": "navigate forward to the next matched pattern specified by <code>/</code>."
     }
   ]
 }
