@@ -197,6 +197,21 @@
         "categoryId": "NAVIGATION",
         "motion": "n",
         "description": "navigate forward to the next matched pattern specified by <code>/</code>."
+    },
+    {
+        "categoryId": "MODE_VISUAL",
+        "motion": "~",
+        "description": "toggle case of selection. That is, if the selection is lowercase, it becomes uppercase and vice versa."
+    },
+    {
+        "categoryId": "MODE_VISUAL",
+        "motion": "u",
+        "description": "make selection lowercase."
+    },
+    {
+        "categoryId": "MODE_VISUAL",
+        "motion": "U",
+        "description": "make selection uppercase."
     }
   ]
 }
