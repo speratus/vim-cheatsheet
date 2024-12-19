@@ -5,8 +5,10 @@ import com.intellij.openapi.project.DumbAware;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowFactory;
+import com.intellij.ui.AnimatedIcon;
 import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentFactory;
+import org.intellij.plugins.markdown.ui.preview.BrowserPipe;
 import org.intellij.plugins.markdown.ui.preview.MarkdownHtmlPanel;
 import org.intellij.plugins.markdown.ui.preview.MarkdownHtmlPanelProvider;
 import org.intellij.plugins.markdown.ui.preview.jcef.JCEFHtmlPanelProvider;
@@ -31,16 +33,37 @@ final public class CheatsheetWindowFactory implements ToolWindowFactory, DumbAwa
 
         MarkdownHtmlPanelProvider panelProvider = new JCEFHtmlPanelProvider();
         MarkdownHtmlPanel mdPanel;
+        JLabel loader;
+        BrowserPipe browserPipe;
 
         public CheatsheetToolWindow() {
             contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
 
             mdPanel = panelProvider.createHtmlPanel();
 
-            insertContents(contentPanel);
+            var useLoader = true;
+
+            try {
+                browserPipe = mdPanel.getBrowserPipe();
+                browserPipe.subscribe("documentReady", this::swapContents);
+            } catch (Exception e) {
+                useLoader = false;
+            }
+
+            if (useLoader) {
+                loader = new JLabel("Loading...", new AnimatedIcon.Default(), SwingConstants.LEFT);
+                contentPanel.add(loader);
+            }
+
+            insertContents(contentPanel, useLoader);
         }
 
-        private void insertContents(JPanel contentPanel) {
+        private void swapContents(String s) {
+            contentPanel.remove(loader);
+            contentPanel.add(mdPanel.getComponent());
+        }
+
+        private void insertContents(JPanel contentPanel, boolean useLoader) {
             Cheatsheet cheatsheet = ApplicationManager.getApplication().getService(Cheatsheet.class);
 
             StringBuffer contentBuffer = new StringBuffer();
@@ -63,7 +86,9 @@ final public class CheatsheetWindowFactory implements ToolWindowFactory, DumbAwa
             contentBuffer.append("</body></html>");
 
             mdPanel.setHtml(contentBuffer.toString(), 0);
-            contentPanel.add(mdPanel.getComponent());
+            if (!useLoader) {
+                contentPanel.add(mdPanel.getComponent());
+            }
         }
 
         private void createMotionLabel(Motion motion, StringBuffer textBuffer) {
