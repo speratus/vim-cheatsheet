@@ -212,6 +212,21 @@
         "categoryId": "MODE_VISUAL",
         "motion": "U",
         "description": "make selection uppercase."
+    },
+    {
+        "categoryId": "NAVIGATION",
+        "motion": "%",
+        "description": "move to the other end of a pair of <code>(</code>, <code>[</code>, or <code>{</code> under the cursor."
+    },
+    {
+        "categoryId": "MODE_VISUAL",
+        "motion": "y",
+        "description": "copy (yank) the current selection to the unnamed register."
+    },
+    {
+        "categoryId": "MODE_VISUAL",
+        "motion": "\"<strong>a</strong>y",
+        "description": "copy (yank) the current selection to register <strong>a</strong>."
     }
   ]
 }
