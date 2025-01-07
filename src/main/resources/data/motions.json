@@ -227,6 +227,11 @@
         "categoryId": "MODE_VISUAL",
         "motion": "\"<strong>a</strong>y",
         "description": "copy (yank) the current selection to register <strong>a</strong>."
+    },
+    {
+        "categoryId": "MODE_VISUAL",
+        "motion": "\"<strong>b</strong>p",
+        "description": "paste the contents of register <strong>b</strong> after the cursor."
     }
   ]
 }
