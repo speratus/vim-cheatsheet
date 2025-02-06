@@ -237,6 +237,11 @@
         "categoryId": "MODE_VISUAL",
         "motion": "vi<strong>(</strong>",
         "description": "select the contents between the next <strong>(</strong> character. This will jump to the next occurrence of <strong>(</strong> before selecting. This also works with other \"wrapper\" characters such as <strong>{</strong> and <strong>[</strong>."
+    },
+    {
+      "categoryId": "MODE_NORMAL",
+      "motion": "S",
+      "description": "Delete the entire line under the cursor and enter edit mode. Effectively the same as <code>cc</code>."
     }
   ]
 }
