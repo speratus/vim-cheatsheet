@@ -58,6 +58,5 @@ dependencies {
         val version = providers.gradleProperty("platformVersion")
 
         create(type, version)
-        bundledPlugin("org.intellij.plugins.markdown")
     }
 }
