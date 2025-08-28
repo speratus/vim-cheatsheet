@@ -10,6 +10,7 @@ import com.intellij.openapi.wm.ToolWindowFactory;
 import com.intellij.ui.JBColor;
 import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentFactory;
+import com.intellij.util.ui.HTMLEditorKitBuilder; // added
 import org.jetbrains.annotations.NotNull;
 import space.luchuktech.vimcheatsheet.api.Category;
 import space.luchuktech.vimcheatsheet.api.Motion;
@@ -36,7 +37,7 @@ final public class CheatsheetWindowFactory implements ToolWindowFactory, DumbAwa
         private JEditorPane editorPane;
         private JScrollPane scrollPane;
         private HTMLEditorKit editorKit;
-        private StyleSheet styleSheet;
+        private StyleSheet customSheet;
 
         public CheatsheetToolWindow() {
             contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
@@ -46,10 +47,8 @@ final public class CheatsheetWindowFactory implements ToolWindowFactory, DumbAwa
             editorPane.setEditable(false);
             editorPane.setContentType("text/html");
 
-            // Set up the HTML editor kit with custom styling
-            editorKit = new HTMLEditorKit();
-            editorPane.setEditorKit(editorKit);
-            styleSheet = editorKit.getStyleSheet();
+            // Install IntelliJ's preconfigured kit and attach our custom child stylesheet
+            installEditorKitAndAttachStyles();
 
             // Add the editor pane to a scroll pane for scrolling capability
             scrollPane = new JScrollPane(editorPane);
@@ -69,37 +68,41 @@ final public class CheatsheetWindowFactory implements ToolWindowFactory, DumbAwa
 
         @Override
         public void lookAndFeelChanged(@NotNull LafManager source) {
-            // Update styling when theme changes
-            applyThemeStyles();
-            // Reload content to apply new styles
+            // Rebuild the kit so we get the correct theme defaults, then reattach our custom sheet
+            installEditorKitAndAttachStyles();
             loadContent();
         }
 
-        private void applyThemeStyles() {
-            // Clear existing styles
-            styleSheet.addRule("body {}");
-            styleSheet.addRule("h2 {}");
-            styleSheet.addRule("p {}");
-            styleSheet.addRule("code {}");
+        private void installEditorKitAndAttachStyles() {
+            // Build a fresh kit which already includes JetBrains' default root StyleSheet
+            editorKit = new HTMLEditorKitBuilder().build();
+            editorPane.setEditorKit(editorKit);
 
-            // Apply theme-specific styles
+            // Create (or rebuild) our custom linked sheet whose rules should NOT override platform defaults
+            customSheet = new StyleSheet();
+
             boolean isDarkTheme = !JBColor.isBright();
-
-            // Common styles
-            styleSheet.addRule("body { font-family: 'Segoe UI', Arial, sans-serif; margin: 10px; }");
-            styleSheet.addRule("p { margin: 5px 0; }");
-
+            // Put our base rules into the linked sheet
+            customSheet.addRule("body { font-family: 'Segoe UI', Arial, sans-serif; margin: 10px; }");
+            customSheet.addRule("p { margin: 5px 0; }");
             if (isDarkTheme) {
-                // Dark theme styles
-                styleSheet.addRule("body { background-color: #2B2B2B; color: #A9B7C6; }");
-                styleSheet.addRule("h2 { color: #A9B7C6; font-size: 18px; margin-top: 20px; margin-bottom: 10px; }");
-                styleSheet.addRule("code { font-family: 'Courier New', monospace; background-color: #3C3F41; color: #CC7832; padding: 2px 4px; border-radius: 3px; }");
+                customSheet.addRule("body { background-color: #2B2B2B; color: #A9B7C6; }");
+                customSheet.addRule("h2 { color: #A9B7C6; font-size: 18px; margin-top: 20px; margin-bottom: 10px; }");
+                customSheet.addRule("code { font-family: 'JetBrains Mono', monospace; background-color: #3C3F41; color: #CC7832; padding: 2px 4px; }");
             } else {
-                // Light theme styles
-                styleSheet.addRule("body { background-color: #FFFFFF; color: #000000; }");
-                styleSheet.addRule("h2 { color: #2C3E50; font-size: 18px; margin-top: 20px; margin-bottom: 10px; }");
-                styleSheet.addRule("code { font-family: 'Courier New', monospace; background-color: #F5F5F5; color: #0000FF; padding: 2px 4px; border-radius: 3px; }");
+                customSheet.addRule("body { background-color: #FFFFFF; color: #000000; }");
+                customSheet.addRule("h2 { color: #2C3E50; font-size: 18px; margin-top: 20px; margin-bottom: 10px; }");
+                customSheet.addRule("code { font-family: 'JetBrains Mono', monospace; background-color: #F5F5F5; color: #0000FF; padding: 2px 4px; }");
             }
+
+            // Attach as a linked sheet to the platform root; platform defaults will override our base on conflicts
+            StyleSheet platformRoot = editorKit.getStyleSheet();
+            platformRoot.addStyleSheet(customSheet);
+        }
+
+        private void applyThemeStyles() {
+            // Kept for compatibility; installEditorKitAndAttachStyles() handles theme
+            installEditorKitAndAttachStyles();
         }
 
         private void loadContent() {
